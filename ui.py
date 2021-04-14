@@ -1,5 +1,6 @@
 # import modules
 import threading
+import webbrowser
 from tkinter import *
 import requests
 import os
@@ -56,7 +57,7 @@ def login_sucess():
     global wallbtnst
     global radarbtnst
     global moneybtnst
-
+    color = '#67b85f'
     espbtnst = 0
     wallbtnst = 0
     radarbtnst = 0
@@ -66,17 +67,18 @@ def login_sucess():
     login_success_screen = Tk()
     login_success_screen.title("Nohack")
     login_success_screen.geometry("300x350")
-    Label(login_success_screen, text="Login Success", height=4).pack()
+    login_success_screen['background'] = color
+    Label(login_success_screen, text="Login Success, NoHack", height=4, bg=color).pack()
 
-    radarbtn = Button(login_success_screen, bg="gray", text="Radar", command=radar, height=3)
+    radarbtn = Button(login_success_screen, bg="#748bb0", text="Radar", command=radar, height=1)
     radarbtn.pack(fill=X)
-    espbtn = Button(login_success_screen, bg="gray", text="Esp", command=esp, height=3)
+    espbtn = Button(login_success_screen, bg="#748bb0", text="Esp", command=esp, height=1)
     espbtn.pack(fill=X)
-    moneybtn = Button(login_success_screen, bg="gray", text="Money", command=money, height=3)
+    moneybtn = Button(login_success_screen, bg="#748bb0", text="Money", command=money, height=1)
     moneybtn.pack(fill=X)
-    wallbtn = Button(login_success_screen, bg="gray", text="Wall", command=wall, height=3)
+    wallbtn = Button(login_success_screen, bg="#748bb0", text="Wall", command=wall, height=1)
     wallbtn.pack(fill=X)
-    exitbtn = Button(login_success_screen, bg="gray", text="Exit", command=delete_login_success, height=3)
+    exitbtn = Button(login_success_screen, bg="#748bb0", text="Exit", command=delete_login_success, height=1)
     exitbtn.pack(fill=X)
 
 
@@ -87,12 +89,12 @@ def radar():
         print(radarbtnst)
         Radar = threading.Thread(None, smt.radar)
         Radar.start()
-        radarbtn.configure(bg="green")
+        radarbtn.configure(bg="#c3cc6e")
         radarbtnst = 1
     elif radarbtnst == 1:
         Radar = threading.Thread(None, smt.radar)
         Radar.start()
-        radarbtn.configure(bg="gray")
+        radarbtn.configure(bg="#748bb0")
         radarbtnst = 0
 
 
@@ -103,13 +105,13 @@ def esp():
         #print(espbtnst)
         Esp = threading.Thread(None, smt.esp, daemon=True)
         Esp.start()
-        espbtn.configure(bg="green")
+        espbtn.configure(bg="#c3cc6e")
         espbtn["state"] = "disabled"
         espbtnst = 1
     elif espbtnst == 1:
         #exit_event.set()
         #Esp
-        espbtn.configure(bg="gray")
+        espbtn.configure(bg="#748bb0")
         espbtnst = 0
 
 
@@ -121,12 +123,12 @@ def money():
         print(moneybtnst)
         Money = threading.Thread(None, smt.Money)
         Money.start()
-        moneybtn.configure(bg="green")
+        moneybtn.configure(bg="#c3cc6e")
         moneybtnst = 1
     elif moneybtnst == 1:
         Money = threading.Thread(None, smt.Money)
         Money.start()
-        moneybtn.configure(bg="gray")
+        moneybtn.configure(bg="#748bb0")
         moneybtnst = 0
 
 
@@ -138,12 +140,12 @@ def wall():
         print(wallbtnst)
         Wall = threading.Thread(None, smt.wall)
         Wall.start()
-        wallbtn.configure(bg="green")
+        wallbtn.configure(bg="#c3cc6e")
         wallbtnst = 1
     elif wallbtnst == 1:
         Wall = threading.Thread(None, smt.wall)
         Wall.start()
-        wallbtn.configure(bg="gray")
+        wallbtn.configure(bg="#748bb0")
         wallbtnst = 0
 
 
@@ -186,14 +188,20 @@ def delete_user_not_found_screen():
 
 
 # Designing Main(first) window
+def callback(url):
+    webbrowser.open_new(url)
 
 def main_account_screen():
     global login_screen
+    color = '#67b85f'
     login_screen = Tk()
     login_screen.title("Login")
-    login_screen.geometry("400x350")
-    Label(login_screen, text="Please enter details below to login").pack()
-    Label(login_screen, text="").pack()
+    login_screen.geometry("300x350")
+    login_screen['background'] = color
+    canvas = Canvas(login_screen, width=300, height=90, bg=color, bd=0, highlightthickness=0, relief='ridge')
+    canvas.pack()
+    Label(login_screen, text="Please enter details below to login", bg=color).pack()
+    Label(login_screen, text="", bg=color).pack()
 
     global username_verify
     global password_verify
@@ -204,15 +212,22 @@ def main_account_screen():
     global username_login_entry
     global password_login_entry
 
-    Label(login_screen, text="Username * ").pack()
+    img = PhotoImage(file="Banner.png")
+    canvas.create_image(0, 0, anchor=NW, image=img)
+    Label(login_screen, text="Username * ", bg=color).pack()
     username_login_entry = Entry(login_screen, textvariable=username_verify)
     username_login_entry.pack()
-    Label(login_screen, text="").pack()
-    Label(login_screen, text="Password * ").pack()
+    Label(login_screen, text="", bg=color).pack()
+    Label(login_screen, text="Password * ", bg=color).pack()
     password_login_entry = Entry(login_screen, textvariable=password_verify, show='*')
     password_login_entry.pack()
-    Label(login_screen, text="").pack()
+    Label(login_screen, text="", bg=color).pack()
     Button(login_screen, text="Login", width=10, height=1, command=login_verify).pack()
+    whoami = Label(login_screen, text="CreatedBy: Khashino", fg="blue", cursor="hand2", bg=color)
+    whoami.pack(side=BOTTOM)
+    whoami.bind("<Button-1>", lambda e: callback("http://www.khashino.ir"))
+
+
     #login_sucess()
     login_screen.mainloop()
 
