@@ -213,7 +213,7 @@ def main_account_screen():
     password_login_entry.pack()
     Label(login_screen, text="").pack()
     Button(login_screen, text="Login", width=10, height=1, command=login_verify).pack()
-    login_sucess()
+    #login_sucess()
     login_screen.mainloop()
 
 
