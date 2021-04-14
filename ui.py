@@ -3,9 +3,8 @@ import threading
 import webbrowser
 from tkinter import *
 import requests
-import os
 import smt
-import sys
+
 
 
 # Designing window for registration
@@ -65,21 +64,27 @@ def login_sucess():
 
     login_screen.destroy()
     login_success_screen = Tk()
-    login_success_screen.title("Nohack")
+    login_success_screen.title("NoHack-Cheat")
     login_success_screen.geometry("300x350")
     login_success_screen['background'] = color
-    Label(login_success_screen, text="Login Success, NoHack", height=4, bg=color).pack()
 
-    radarbtn = Button(login_success_screen, bg="#748bb0", text="Radar", command=radar, height=1)
-    radarbtn.pack(fill=X)
-    espbtn = Button(login_success_screen, bg="#748bb0", text="Esp", command=esp, height=1)
-    espbtn.pack(fill=X)
-    moneybtn = Button(login_success_screen, bg="#748bb0", text="Money", command=money, height=1)
-    moneybtn.pack(fill=X)
-    wallbtn = Button(login_success_screen, bg="#748bb0", text="Wall", command=wall, height=1)
-    wallbtn.pack(fill=X)
-    exitbtn = Button(login_success_screen, bg="#748bb0", text="Exit", command=delete_login_success, height=1)
-    exitbtn.pack(fill=X)
+
+    Label(login_success_screen, text="Login Success, NoHack", height=4, bg=color).pack()
+    radarbtn = Button(login_success_screen, bg="#748bb0", text="Radar", command=radar, height=2, width=25)
+    radarbtn.pack()
+    espbtn = Button(login_success_screen, bg="#748bb0", text="Wall(Glow-Esp)", command=esp, height=2, width=25)
+    espbtn.pack()
+    moneybtn = Button(login_success_screen, bg="#748bb0", text="Money", command=money, height=2, width=25)
+    moneybtn.pack()
+    wallbtn = Button(login_success_screen, bg="#748bb0", text="Wall(Simple)", command=wall, height=2, width=25)
+    wallbtn.pack()
+    Label(login_success_screen, text="", bg=color).pack()
+    exitbtn = Button(login_success_screen, bg="#748bb0", text="Exit", command=delete_login_success, height=2, width=25)
+    exitbtn.pack()
+
+    whoami = Label(login_success_screen, text="CreatedBy: Khashino", fg="blue", cursor="hand2", bg=color)
+    whoami.pack(side=BOTTOM)
+    whoami.bind("<Button-1>", lambda e: callback("http://www.khashino.ir"))
 
 
 def radar():
@@ -195,7 +200,7 @@ def main_account_screen():
     global login_screen
     color = '#67b85f'
     login_screen = Tk()
-    login_screen.title("Login")
+    login_screen.title("NoHack-Login")
     login_screen.geometry("300x350")
     login_screen['background'] = color
     canvas = Canvas(login_screen, width=300, height=90, bg=color, bd=0, highlightthickness=0, relief='ridge')
