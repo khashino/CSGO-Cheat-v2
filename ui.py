@@ -2,13 +2,14 @@
 import threading
 from tkinter import *
 import requests
-
+import os
 import smt
-
+import sys
 
 
 # Designing window for registration
 
+#exit_event = threading.Event()
 
 def login_verify():
     username1 = username_verify.get()
@@ -67,16 +68,16 @@ def login_sucess():
     login_success_screen.geometry("300x350")
     Label(login_success_screen, text="Login Success", height=4).pack()
 
-    radarbtn = Button(login_success_screen, bg="gray", text="Radar", command=radar, height=3, width=100)
-    radarbtn.pack()
-    espbtn = Button(login_success_screen, bg="gray", text="Esp", command=esp, height=3, width=100)
-    espbtn.pack()
-    moneybtn = Button(login_success_screen, bg="gray", text="Money", command=money, height=3, width=100)
-    moneybtn.pack()
-    wallbtn = Button(login_success_screen, bg="gray", text="Wall", command=wall, height=3, width=100)
-    wallbtn.pack()
-    exitbtn = Button(login_success_screen, bg="gray", text="Exit", command=delete_login_success, height=3, width=100)
-    exitbtn.pack()
+    radarbtn = Button(login_success_screen, bg="gray", text="Radar", command=radar, height=3)
+    radarbtn.pack(fill=X)
+    espbtn = Button(login_success_screen, bg="gray", text="Esp", command=esp, height=3)
+    espbtn.pack(fill=X)
+    moneybtn = Button(login_success_screen, bg="gray", text="Money", command=money, height=3)
+    moneybtn.pack(fill=X)
+    wallbtn = Button(login_success_screen, bg="gray", text="Wall", command=wall, height=3)
+    wallbtn.pack(fill=X)
+    exitbtn = Button(login_success_screen, bg="gray", text="Exit", command=delete_login_success, height=3)
+    exitbtn.pack(fill=X)
 
 
 def radar():
@@ -96,13 +97,21 @@ def radar():
 
 
 def esp():
-    global Esp
+    global espbtnst
 
-    Esp = threading.Thread(None, smt.esp,  daemon=True)
-    Esp.start()
-    #Esp.
-    espbtn.configure(bg="green")
-    espbtn["state"] = "disabled"
+    if espbtnst == 0:
+        #print(espbtnst)
+        Esp = threading.Thread(None, smt.esp, daemon=True)
+        Esp.start()
+        espbtn.configure(bg="green")
+        espbtn["state"] = "disabled"
+        espbtnst = 1
+    elif espbtnst == 1:
+        #exit_event.set()
+        #Esp
+        espbtn.configure(bg="gray")
+        espbtnst = 0
+
 
 
 def money():
@@ -204,7 +213,7 @@ def main_account_screen():
     password_login_entry.pack()
     Label(login_screen, text="").pack()
     Button(login_screen, text="Login", width=10, height=1, command=login_verify).pack()
-    #login_sucess()
+    login_sucess()
     login_screen.mainloop()
 
 
