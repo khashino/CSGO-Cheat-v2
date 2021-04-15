@@ -4,7 +4,9 @@ import webbrowser
 from tkinter import *
 import requests
 import smt
-
+import silent as aim
+from multiprocessing import *
+import multiprocessing
 
 
 # Designing window for registration
@@ -45,22 +47,25 @@ def login_verify():
 # Designing popup for login success
 
 def login_sucess():
-    smt.updatevar()
     global login_success_screen
     global espbtn
     global wallbtn
     global radarbtn
     global moneybtn
+    global silentbtn
 
     global espbtnst
     global wallbtnst
     global radarbtnst
     global moneybtnst
+    global silentbtnst
+
     color = '#67b85f'
     espbtnst = 0
     wallbtnst = 0
     radarbtnst = 0
     moneybtnst = 0
+    silentbtnst = 0
 
     login_screen.destroy()
     login_success_screen = Tk()
@@ -78,6 +83,8 @@ def login_sucess():
     moneybtn.pack()
     wallbtn = Button(login_success_screen, bg="#748bb0", text="Wall(Simple)", command=wall, height=2, width=25)
     wallbtn.pack()
+    silentbtn = Button(login_success_screen, bg="#748bb0", text="SilentAim(Hold ALT) ", command=silent, height=2, width=25)
+    silentbtn.pack()
     Label(login_success_screen, text="", bg=color).pack()
     exitbtn = Button(login_success_screen, bg="#748bb0", text="Exit", command=delete_login_success, height=2, width=25)
     exitbtn.pack()
@@ -85,6 +92,25 @@ def login_sucess():
     whoami = Label(login_success_screen, text="CreatedBy: Khashino", fg="blue", cursor="hand2", bg=color)
     whoami.pack(side=BOTTOM)
     whoami.bind("<Button-1>", lambda e: callback("http://www.khashino.ir"))
+
+def silent():
+    global silentbtnst
+    global aimproc
+    if silentbtnst == 0:
+        print(silentbtnst)
+        aimproc = Process(target=aim.silent)
+        aimproc.daemon = True
+        aimproc.start()
+        #Aim = threading.Thread(None, aim.silent, daemon=True)
+        #Aim.start()
+        silentbtn.configure(bg="#c3cc6e")
+        silentbtnst = 1
+    elif silentbtnst == 1:
+        #Aim = threading.Thread(None, aim.silent)
+        #Aim.start()
+        aimproc.terminate()
+        silentbtn.configure(bg="#748bb0")
+        silentbtnst = 0
 
 
 def radar():
@@ -105,17 +131,21 @@ def radar():
 
 def esp():
     global espbtnst
-
+    global espproc
     if espbtnst == 0:
         #print(espbtnst)
-        Esp = threading.Thread(None, smt.esp, daemon=True)
-        Esp.start()
+        espproc = Process(target=smt.esp)
+        espproc.daemon = True
+        espproc.start()
+        #Esp = threading.Thread(None, smt.esp, daemon=True)
+        #Esp.start()
         espbtn.configure(bg="#c3cc6e")
-        espbtn["state"] = "disabled"
+        #espbtn["state"] = "disabled"
         espbtnst = 1
     elif espbtnst == 1:
         #exit_event.set()
         #Esp
+        espproc.terminate()
         espbtn.configure(bg="#748bb0")
         espbtnst = 0
 
@@ -236,5 +266,5 @@ def main_account_screen():
     #login_sucess()
     login_screen.mainloop()
 
-
-main_account_screen()
+if __name__ == "__main__":
+    main_account_screen()

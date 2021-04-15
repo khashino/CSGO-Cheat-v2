@@ -3,37 +3,7 @@ import pymem.process
 import re
 import time
 import requests
-
-
-def updatevar():
-    global dwEntityList
-    global dwGlowObjectManager
-    global m_iGlowIndex
-    global m_iTeamNum
-    global dwRadarBase
-    global dwClientState
-    global dwLocalPlayer
-
-    url = 'https://raw.githubusercontent.com/frk1/hazedumper/master/csgo.json'
-    response = requests.get(url)
-
-    if response.status_code != 200:
-        print('Network is unavailable')
-        dwEntityList = int(81411932)
-        dwGlowObjectManager = int(86951248)
-        m_iGlowIndex = int(42040)
-        m_iTeamNum = int(244)
-        dwRadarBase = int(85822676)
-        dwClientState = int(5828580)
-        dwLocalPlayer = int(14205644)
-    else:
-        dwEntityList = int(response.json()["signatures"]["dwEntityList"])
-        dwGlowObjectManager = int(response.json()["signatures"]["dwGlowObjectManager"])
-        m_iGlowIndex = int(response.json()["netvars"]["m_iGlowIndex"])
-        m_iTeamNum = int(response.json()["netvars"]["m_iTeamNum"])
-        dwRadarBase = int(response.json()["signatures"]["dwRadarBase"])
-        dwClientState = int(response.json()["signatures"]["dwClientState"])
-        dwLocalPlayer = int(response.json()["signatures"]["dwLocalPlayer"])
+from offsets import *
 
 
 def makeitready():
